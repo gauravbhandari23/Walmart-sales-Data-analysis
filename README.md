@@ -4,10 +4,11 @@ This project aims to perform in-depth analysis of Walmart's sales data using SQL
 Business Problems Solved
 Q1: Find Different Payment Methods and Number of Transactions, Number of Quantity Sold
 This query identifies the different payment methods used and provides the count of transactions and total quantity sold for each payment method.
+```sql
 SELECT 
   payment_method, 
   COUNT(*) AS transaction, 
   SUM(quantity) AS quantity
 FROM walmart
 GROUP BY payment_method;
-
+```
