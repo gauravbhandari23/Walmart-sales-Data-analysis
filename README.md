@@ -118,31 +118,4 @@ FROM walmart
 GROUP BY branch, time_of_day
 ORDER BY branch;
 ```
-Q9: Identify the 5 Branches with the Highest Decrease Ratio in Revenue (2022 vs 2023)
 
-This query calculates the decrease ratio in revenue for each branch comparing 2022 and 2023 sales.
-```sql
-WITH revenue_2022 AS (
-  SELECT branch, SUM(total) AS revenue
-  FROM walmart
-  WHERE YEAR(STR_TO_DATE(date, '%d/%m/%Y')) = 2022
-  GROUP BY branch
-),
-revenue_2023 AS (
-  SELECT branch, SUM(total) AS revenue
-  FROM walmart
-  WHERE YEAR(STR_TO_DATE(date, '%d/%m/%Y')) = 2023
-  GROUP BY branch
-)
-SELECT 
-  ls.branch,
-  ls.revenue AS last_year_revenue,
-  cs.revenue AS current_year_revenue,
-  CAST((ls.revenue - cs.revenue) / ls.revenue * 100 AS DECIMAL(10,2)) AS decrease_ratio
-FROM revenue_2022 AS ls
-JOIN revenue_2023 AS cs
-ON ls.branch = cs.branch
-WHERE ls.revenue > cs.revenue
-ORDER BY decrease_ratio DESC
-LIMIT 5;
-```
